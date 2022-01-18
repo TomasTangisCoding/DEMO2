@@ -12,8 +12,10 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        '/orders/success',
-        //'/orders/notify'
+        '/orders/mpg_return',
+        '/orders/pendingPaymentType',
+        '/orders/notify',
+
         
     ];
 }

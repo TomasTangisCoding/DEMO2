@@ -35,8 +35,8 @@ class Product extends Model
         return $this -> belongsTo(Brand::class);
     }
 
-    public function subcategory(){
-        return $this -> belongsTo(subcategory::class);
+    public function Subcategory(){
+        return $this -> belongsTo(Subcategory::class);
     }
     
     public function product_options()

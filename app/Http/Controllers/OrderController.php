@@ -3,15 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
     public function index(Request $request){
         $current_user = $request->user();
+
         $orders = $current_user->orders()->orderBy('id', 'desc')->get();
 
-        return view('orders.index',[
-            'orders' => $orders 
+        return view('orders.index', [
+            'orders' => $orders
         ]);
     }
 
@@ -21,10 +25,11 @@ class OrderController extends Controller
 
         $order = $current_user->orders()->where('order_number', $order_number)->first();
         
-        if(!$order){
+        if (!$order){
             return redirect()->route('orders.index')->withErrors('沒有這個訂單');
         }
-        return view('orders.show',[
+
+        return view('orders.show', [
             'order' => $order
         ]);
     }
@@ -40,34 +45,32 @@ class OrderController extends Controller
     }
 
     public function mpg_return(Request $request){
-        $result = $this->validateMPGCallbackValues($request);
-        if ( is_array($result)){     
-            if (
-                $result["PaymentType"] == 'CREDIT' &&
-                $result["RespondCode"] == '00' &&
-                isset($result["PayTime"])
+        
+        $status = $request->input('Status');
+        $merchantID = $request->input('MerchantID');
+        $version = $request->input('Version');
+        $tradeInfo = $request->input('TradeInfo');
+        $tradeSha = $request->input('TradeSha');
+
+        $hashKey = env('MPG_HashKey', '');
+        $hashIV = env('MPG_HashIV', '');
+        $tradeShaForTest = strtoupper(hash("sha256", "HashKey={$hashKey}&{$tradeInfo}&HashIV={$hashIV}"));
+        
+        $tradeInfoAry = $this->create_aes_decrypt($tradeInfo, $hashKey, $hashIV); 
+        var_dump($tradeInfoAry);
+
+        if (    $status == 'SUCCESS' && 
+                $merchantID == env('MPG_MerchantID') &&
+                $version == env('MPG_Version') &&
+                $tradeSha == $tradeShaForTest
             ){
-                $merchantOrderNo = $result["MerchantOrderNo"];
-                $order = Order::where('order_number', $merchantOrderNo)->first();
-                if ($order){
-                    $order->setToPaid();
-                    Auth::guard('web')->login($order->user);
-                    return redirect()->route('orders.success');
-                }
-            } else if (
-                $result["PaymentType"] == 'WEBATM' &&
-                isset($result["PayTime"])
-            ){
-                $merchantOrderNo = $result["MerchantOrderNo"];
-                $order = Order::where('order_number', $merchantOrderNo)->first();
-                if ($order){
-                    $order->setToPaid();
-                    Auth::guard('web')->login($order->user);
-                    return redirect()->route('orders.success');
-                }
+                
+                
+                // $tradeInfoAry = json_decode($tradeInfoJSONString, true);
+                // return $tradeInfoAry["Result"];
             }
-        }
-        return redirect('/')->withErrors($result);
+
+        //return "MPG 錯誤 $status";
     }
 
     public function notify(Request $request){
@@ -120,30 +123,7 @@ class OrderController extends Controller
     }
 
     
-    private function validateMPGCallbackValues(Request $request){
-        $status = $request->input('Status');
-        $merchantID = $request->input('MerchantID');
-        $version = $request->input('Version');
-        $tradeInfo = $request->input('TradeInfo');
-        $tradeSha = $request->input('TradeSha');
-
-        $hashKey = env('MPG_HashKey', '');
-        $hashIV = env('MPG_HashIV', '');
-        $tradeShaForTest = strtoupper(hash("sha256", "HashKey={$hashKey}&{$tradeInfo}&HashIV={$hashIV}"));
-        
-        if (    $status == 'SUCCESS' && 
-                $merchantID == env('MPG_MerchantID') &&
-                $version == env('MPG_Version') &&
-                $tradeSha == $tradeShaForTest
-            ){
-                
-                $tradeInfoJSONString = $this->create_aes_decrypt($tradeInfo, $hashKey, $hashIV); 
-                $tradeInfoAry = json_decode($tradeInfoJSONString, true);
-                return $tradeInfoAry["Result"];
-            }
-
-        return "MPG 錯誤 $status";
-    }
+    
 
     private function create_aes_decrypt($parameter = "", $key = "", $iv = "") {
         return $this->strippadding(

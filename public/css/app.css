@@ -636,6 +636,9 @@ select {
 .z-50 {
   z-index: 50;
 }
+.col-span-12 {
+  grid-column: span 12 / span 12;
+}
 .col-span-8 {
   grid-column: span 8 / span 8;
 }
@@ -645,20 +648,17 @@ select {
 .col-span-2 {
   grid-column: span 2 / span 2;
 }
-.col-span-12 {
-  grid-column: span 12 / span 12;
-}
 .col-span-4 {
   grid-column: span 4 / span 4;
+}
+.col-span-3 {
+  grid-column: span 3 / span 3;
 }
 .col-span-5 {
   grid-column: span 5 / span 5;
 }
 .col-span-7 {
   grid-column: span 7 / span 7;
-}
-.col-span-3 {
-  grid-column: span 3 / span 3;
 }
 .m-auto {
   margin: auto;
@@ -819,14 +819,14 @@ select {
 .max-w-7xl {
   max-width: 80rem;
 }
+.max-w-2xl {
+  max-width: 42rem;
+}
 .max-w-xl {
   max-width: 36rem;
 }
 .max-w-6xl {
   max-width: 72rem;
-}
-.max-w-2xl {
-  max-width: 42rem;
 }
 .flex-1 {
   flex: 1 1 0%;
@@ -871,14 +871,14 @@ select {
 .list-disc {
   list-style-type: disc;
 }
+.grid-cols-12 {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
 .grid-cols-8 {
   grid-template-columns: repeat(8, minmax(0, 1fr));
 }
 .grid-cols-1 {
   grid-template-columns: repeat(1, minmax(0, 1fr));
-}
-.grid-cols-12 {
-  grid-template-columns: repeat(12, minmax(0, 1fr));
 }
 .flex-col {
   flex-direction: column;
@@ -965,14 +965,14 @@ select {
 .border-b {
   border-bottom-width: 1px;
 }
+.border-t {
+  border-top-width: 1px;
+}
 .border-l-4 {
   border-left-width: 4px;
 }
 .border-b-2 {
   border-bottom-width: 2px;
-}
-.border-t {
-  border-top-width: 1px;
 }
 .border-r {
   border-right-width: 1px;
@@ -1100,6 +1100,10 @@ select {
   padding-top: 1rem;
   padding-bottom: 1rem;
 }
+.py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
 .py-5 {
   padding-top: 1.25rem;
   padding-bottom: 1.25rem;
@@ -1108,17 +1112,13 @@ select {
   padding-left: 0.75rem;
   padding-right: 0.75rem;
 }
-.py-1 {
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
-}
 .px-1 {
   padding-left: 0.25rem;
   padding-right: 0.25rem;
 }
-.py-12 {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
+.py-8 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 .px-8 {
   padding-left: 2rem;
@@ -1128,9 +1128,9 @@ select {
   padding-top: 2.5rem;
   padding-bottom: 2.5rem;
 }
-.py-8 {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+.py-12 {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
 }
 .pb-6 {
   padding-bottom: 1.5rem;
@@ -1162,6 +1162,12 @@ select {
 .pb-1 {
   padding-bottom: 0.25rem;
 }
+.pb-4 {
+  padding-bottom: 1rem;
+}
+.pr-2 {
+  padding-right: 0.5rem;
+}
 .pb-2 {
   padding-bottom: 0.5rem;
 }
@@ -1170,12 +1176,6 @@ select {
 }
 .pt-8 {
   padding-top: 2rem;
-}
-.pb-4 {
-  padding-bottom: 1rem;
-}
-.pr-2 {
-  padding-right: 0.5rem;
 }
 .pl-7 {
   padding-left: 1.75rem;
@@ -1240,11 +1240,11 @@ select {
 .leading-7 {
   line-height: 1.75rem;
 }
-.leading-tight {
-  line-height: 1.25;
-}
 .leading-6 {
   line-height: 1.5rem;
+}
+.leading-tight {
+  line-height: 1.25;
 }
 .tracking-wider {
   letter-spacing: 0.05em;
@@ -1268,10 +1268,6 @@ select {
   --tw-text-opacity: 1;
   color: rgb(79 70 229 / var(--tw-text-opacity));
 }
-.text-white {
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
-}
 .text-gray-600 {
   --tw-text-opacity: 1;
   color: rgb(75 85 99 / var(--tw-text-opacity));
@@ -1279,6 +1275,10 @@ select {
 .text-gray-400 {
   --tw-text-opacity: 1;
   color: rgb(156 163 175 / var(--tw-text-opacity));
+}
+.text-white {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 .text-green-600 {
   --tw-text-opacity: 1;
@@ -1607,6 +1607,14 @@ select {
 }
 @media (min-width: 640px) {
 
+  .sm\:col-span-12 {
+    grid-column: span 12 / span 12;
+  }
+
+  .sm\:col-span-6 {
+    grid-column: span 6 / span 6;
+  }
+
   .sm\:col-span-8 {
     grid-column: span 8 / span 8;
   }
@@ -1619,20 +1627,12 @@ select {
     grid-column: span 3 / span 3;
   }
 
-  .sm\:col-span-6 {
-    grid-column: span 6 / span 6;
-  }
-
   .sm\:col-span-2 {
     grid-column: span 2 / span 2;
   }
 
   .sm\:col-span-4 {
     grid-column: span 4 / span 4;
-  }
-
-  .sm\:col-span-12 {
-    grid-column: span 12 / span 12;
   }
 
   .sm\:col-span-1 {
@@ -1775,16 +1775,16 @@ select {
 }
 @media (min-width: 1024px) {
 
-  .lg\:col-span-8 {
-    grid-column: span 8 / span 8;
+  .lg\:col-span-12 {
+    grid-column: span 12 / span 12;
   }
 
   .lg\:col-span-2 {
     grid-column: span 2 / span 2;
   }
 
-  .lg\:col-span-6 {
-    grid-column: span 6 / span 6;
+  .lg\:col-span-10 {
+    grid-column: span 10 / span 10;
   }
 
   .lg\:col-span-4 {
@@ -1803,12 +1803,8 @@ select {
     grid-column: span 7 / span 7;
   }
 
-  .lg\:col-span-10 {
-    grid-column: span 10 / span 10;
-  }
-
-  .lg\:col-span-12 {
-    grid-column: span 12 / span 12;
+  .lg\:col-span-8 {
+    grid-column: span 8 / span 8;
   }
 
   .lg\:-mx-8 {

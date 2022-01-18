@@ -2,7 +2,7 @@
 
 @section('content')
 
-<h1>Order Successfully!</h1>
+<h1>Order not finished yet</h1>
 
 @endsection
 

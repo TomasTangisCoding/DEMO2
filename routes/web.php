@@ -58,17 +58,22 @@ Route::prefix('cart')->name('cart.')->group(function(){
 
     Route::middleware(['auth'])->get('/checkout', [CartController::class, 'checkout'])->name('checkout');
 });
+
+Route::prefix('orders')->name('orders.')->group(function(){
+    Route::get('/success', [OrderController::class, 'success'])->name('success');
+    //Route::get('/not_finished', [OrderController::class, 'not_finished'])->name('not_finished');
+    Route::post('/mpg_return', [OrderController::class, 'mpg_return'])->name('mpg_return');
+    //Route::post('/pendingPaymentType', [OrderController::class, 'pendingPaymentType'])->name('pendingPaymentType');
+    Route::post('/notify', [OrderController::class, 'notify'])->name('notify');
+}); 
+
 //== logged in ==
 //orders
 Route::middleware(['auth'])->group(function () {
     Route::resource('orders', OrderController::class)->only(['index', 'show']);
 });
 
-Route::prefix('orders')->group(function () {
-    Route::post('orders', [OrderController::class, 'success']);
-    Route::post('orders', [OrderController::class, 'notify']);
 
-});
 //profile
 //carts/purchase
 

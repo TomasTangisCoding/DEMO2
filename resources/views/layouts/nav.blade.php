@@ -94,6 +94,9 @@
             <x-responsive-nav-link href="{{ route('cart.index') }}" :active="request()->routeIs('cart.index') ">
                      購物車   
             </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('products.index') }}" :active="request()->routeIs('products.index')">
+                        所有商品
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
